@@ -1,5 +1,0 @@
-/home/syrup/Desktop/Programming/c/gameJamFishing/build/CMakeFiles/my_project.dir
-/home/syrup/Desktop/Programming/c/gameJamFishing/build/CMakeFiles/package.dir
-/home/syrup/Desktop/Programming/c/gameJamFishing/build/CMakeFiles/package_source.dir
-/home/syrup/Desktop/Programming/c/gameJamFishing/build/CMakeFiles/edit_cache.dir
-/home/syrup/Desktop/Programming/c/gameJamFishing/build/CMakeFiles/rebuild_cache.dir
