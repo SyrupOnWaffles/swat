@@ -1,0 +1,7 @@
+# ninja log v5
+1	42	1649629244301343830	CMakeFiles/my_project.dir/main.c.o	fb2a5a2b232b1559
+0	4	0	clean	a31eedcededa8236
+0	29	1649625963875007931	CMakeFiles/my_project.dir/conversion.c.o	9120f52d35cfe441
+42	86	1649629244344678179	my_project	15572019b53df22c
+1	43	1649437463817426404	CMakeFiles/fishing.dir/main.c.o	5c45e66c5ab416c3
+0	56	1649631095164138594	my_project	15572019b53df22c

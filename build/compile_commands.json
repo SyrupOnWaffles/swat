@@ -1,0 +1,12 @@
+[
+{
+  "directory": "/home/syrup/Desktop/Programming/c/gameJamFishing/build",
+  "command": "/usr/bin/clang-13 -g -std=gnu11 -o CMakeFiles/my_project.dir/main.c.o -c /home/syrup/Desktop/Programming/c/gameJamFishing/main.c",
+  "file": "/home/syrup/Desktop/Programming/c/gameJamFishing/main.c"
+},
+{
+  "directory": "/home/syrup/Desktop/Programming/c/gameJamFishing/build",
+  "command": "/usr/bin/clang-13 -g -std=gnu11 -o CMakeFiles/my_project.dir/conversion.c.o -c /home/syrup/Desktop/Programming/c/gameJamFishing/conversion.c",
+  "file": "/home/syrup/Desktop/Programming/c/gameJamFishing/conversion.c"
+}
+]
