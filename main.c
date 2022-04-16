@@ -10,20 +10,33 @@ typedef struct coordinates
     float y; 
 }coordinates;
 
+typedef struct map
+{
+    Texture key[16];
+    int floor[32][32];
+    int wall[32][32];
+    
+}map;
+
 int main(void)
 {
     const int screenWidth = 1280;
     const int screenHeight = 720;
 
+    
+    map test;
+    test.key = {LoadTexture("resources/waterTile.png")};
+
+
     InitWindow(screenWidth, screenHeight, "Isometric World");
-    Texture2D texture = LoadTexture("resources/waterTile.png");      
+    // Texture2D texture = LoadTexture("resources/waterTile.png");      
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
         coordinates mouse = {GetMouseX() * 1.0 / (tileSize / 2), GetMouseY() * 1.0 / (tileSize / 2)};
         itc(&mouse.x,&mouse.y);
         coordinates selectedcoord = {roundf(mouse.x / 2),roundf(mouse.y / 2)};
         cti(&selectedcoord.x,&selectedcoord.y);
-        Vector2 selected = {selectedcoord.x*tileSize - tileSize / 2,selectedcoord.y*tileSize - tileSize / 1.5};
+        Vector2 selected = {selectedcoord.x*tileSize - tileSize / 2,selectedcoord.y*tileSize - tileSize / 1.3};
 
         BeginDrawing();
 
