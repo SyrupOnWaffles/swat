@@ -12,7 +12,7 @@ typedef struct coordinates
 
 typedef struct map
 {
-    Texture key[16];
+    Texture2D key[16];
     int floor[32][32];
     int wall[32][32];
     
@@ -22,14 +22,44 @@ int main(void)
 {
     const int screenWidth = 1280;
     const int screenHeight = 720;
-
-    
-    map test;
-    test.key = {LoadTexture("resources/waterTile.png")};
-
-
     InitWindow(screenWidth, screenHeight, "Isometric World");
-    // Texture2D texture = LoadTexture("resources/waterTile.png");      
+
+    Texture2D water = LoadTexture("resources/waterTile.png");      
+    Texture2D concrete = LoadTexture("resources/concreteTile.png");      
+    map test = {{water, concrete},{{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                          {1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                          {1,1,2,1,1,2,1,1,1,1,1,1,1,1,1,1},
+                          {1,1,1,1,1,2,1,1,1,1,1,1,1,2,1,1},
+                          {1,1,2,1,1,2,1,1,1,1,1,1,1,2,1,1},
+                          {1,1,2,1,1,2,1,1,1,1,1,1,1,2,1,1},
+                          {1,1,1,1,1,2,1,1,1,1,1,1,1,2,1,1},
+                          {1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1},
+                          {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                          {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                          {1,1,2,1,1,1,1,1,1,2,1,1,1,1,1,1},
+                          {1,1,2,1,1,1,1,1,1,2,1,1,1,2,1,1},
+                          {1,1,2,1,1,1,1,1,1,2,1,1,1,2,1,1},
+                          {1,1,2,1,1,1,1,1,1,2,1,1,1,2,1,1},
+                          {1,1,2,1,1,1,1,1,1,2,1,1,1,2,1,1},
+                          {1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1},  
+    },{{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                          {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                          {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                          {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                          {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                          {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                          {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                          {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                          {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                          {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                          {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                          {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                          {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                          {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                          {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                          {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+    }};
+
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
         coordinates mouse = {GetMouseX() * 1.0 / (tileSize / 2), GetMouseY() * 1.0 / (tileSize / 2)};
@@ -49,14 +79,15 @@ int main(void)
                     cti(&tilecoord.x,&tilecoord.y);
                     // Vector2 tile = {tilecoord.x*tileSize + ((1280 / 2) - 4.5 * tileSize), tilecoord.y*tileSize+ (720/2 - tileSize)};
                     Vector2 tile = {tilecoord.x*tileSize , tilecoord.y*tileSize};
-                    DrawTextureEx(texture, tile, 0, 2, WHITE);
+                    DrawTextureEx(test.key[test.floor[fy][fx] - 1], tile, 0, 2, WHITE);
+                    // DrawTextureEx(concrete, tile, 0, 2, WHITE);
+
                 }
                 
             }
-            DrawTextureEx(texture, selected, 0, 2, WHITE);
+            DrawTextureEx(concrete, selected, 0, 2, WHITE);
             
             DrawFPS(0,0);
-            DrawText("this IS a texture!", 360, 370, 10, GRAY);
         EndDrawing();
         
         //----------------------------------------------------------------------------------
@@ -64,7 +95,8 @@ int main(void)
 
     // De-Initialization
     //--------------------------------------------------------------------------------------
-    UnloadTexture(texture);       // Texture unloading
+    UnloadTexture(test.key[0]);
+    UnloadTexture(test.key[1]);       // Texture unloading
 
     CloseWindow();                // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
