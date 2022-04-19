@@ -4,6 +4,7 @@
 #include "math.h"
 
 #define tileSize 64
+#define tileCenter tileSize * 6.015625
 typedef struct coordinates
 {
     float x; 
@@ -14,7 +15,7 @@ typedef struct map
 {
     Texture2D key[16];
     int floor[32][32];
-    int wall[32][32];
+    int props[32][32];
     
 }map;
 
@@ -24,49 +25,57 @@ int main(void)
     const int screenHeight = 720;
     InitWindow(screenWidth, screenHeight, "Isometric World");
 
-    Texture2D water = LoadTexture("resources/waterTile.png");      
-    Texture2D concrete = LoadTexture("resources/concreteTile.png");      
-    map test = {{water, concrete},{{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-                          {1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1},
-                          {1,1,2,1,1,2,1,1,1,1,1,1,1,1,1,1},
-                          {1,1,1,1,1,2,1,1,1,1,1,1,1,2,1,1},
-                          {1,1,2,1,1,2,1,1,1,1,1,1,1,2,1,1},
-                          {1,1,2,1,1,2,1,1,1,1,1,1,1,2,1,1},
-                          {1,1,1,1,1,2,1,1,1,1,1,1,1,2,1,1},
-                          {1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1},
+    map test = {{LoadTexture("resources/waterTile.png"),
+     LoadTexture("resources/concreteTile.png"),
+     LoadTexture("resources/tableTile.png"),
+     LoadTexture("resources/tableEndTile1.png"),
+     LoadTexture("resources/tableEndTile2.png")},{{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
                           {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
                           {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-                          {1,1,2,1,1,1,1,1,1,2,1,1,1,1,1,1},
-                          {1,1,2,1,1,1,1,1,1,2,1,1,1,2,1,1},
-                          {1,1,2,1,1,1,1,1,1,2,1,1,1,2,1,1},
-                          {1,1,2,1,1,1,1,1,1,2,1,1,1,2,1,1},
-                          {1,1,2,1,1,1,1,1,1,2,1,1,1,2,1,1},
-                          {1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1},  
-    },{{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-                          {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                          {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                          {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                          {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                          {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                          {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                          {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                          {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                          {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                          {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                          {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                          {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                          {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                          {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
                           {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                          {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                          {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                          {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                          {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                          {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                          {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                          {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                          {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                          {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                          {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                          {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                          {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}},
+
+                         {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
     }};
 
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
-        coordinates mouse = {GetMouseX() * 1.0 / (tileSize / 2), GetMouseY() * 1.0 / (tileSize / 2)};
+        // printf("%i %i \n", GetMouseX(),GetMouseY());
+
+        coordinates mouse = {(GetMouseX() * 1.0) / (tileSize / 2), GetMouseY() * 1.0 / (tileSize / 2)};
         itc(&mouse.x,&mouse.y);
         coordinates selectedcoord = {roundf(mouse.x / 2),roundf(mouse.y / 2)};
+        printf("%f %f \n", selectedcoord.x,selectedcoord.y);
+        
         cti(&selectedcoord.x,&selectedcoord.y);
-        Vector2 selected = {selectedcoord.x*tileSize - tileSize / 2,selectedcoord.y*tileSize - tileSize / 1.3};
+        Vector2 selected = {selectedcoord.x*tileSize, selectedcoord.y*tileSize};
+        // Vector2 selected = {selectedcoord.x*tileSize - tileSize / 2,selectedcoord.y*tileSize};
 
         BeginDrawing();
 
@@ -78,14 +87,18 @@ int main(void)
                     coordinates tilecoord = {fx,fy}; 
                     cti(&tilecoord.x,&tilecoord.y);
                     // Vector2 tile = {tilecoord.x*tileSize + ((1280 / 2) - 4.5 * tileSize), tilecoord.y*tileSize+ (720/2 - tileSize)};
-                    Vector2 tile = {tilecoord.x*tileSize , tilecoord.y*tileSize};
-                    DrawTextureEx(test.key[test.floor[fy][fx] - 1], tile, 0, 2, WHITE);
+                    Vector2 tile = {(tilecoord.x*tileSize -tileSize + tileCenter), tilecoord.y*tileSize + 360};
+                    // Vector2 tile = {(tilecoord.x*tileSize), tilecoord.y*tileSize};
+                    DrawTextureEx(test.key[test.floor[fy][fx - 1] - 1], tile, 0, 2, WHITE);
+                    tile.y -= tileSize / 2;
+                    DrawTextureEx(test.key[test.props[fy][fx - 1] - 1], tile, 0, 2, WHITE);
+
                     // DrawTextureEx(concrete, tile, 0, 2, WHITE);
 
                 }
                 
             }
-            DrawTextureEx(concrete, selected, 0, 2, WHITE);
+            DrawTextureEx(test.key[0], selected, 0, 2, WHITE);
             
             DrawFPS(0,0);
         EndDrawing();
