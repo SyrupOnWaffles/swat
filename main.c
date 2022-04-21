@@ -29,7 +29,14 @@ typedef struct map
 
     
 }map;
-
+/**
+ * @brief draw map data type with several parameters
+ * 
+ * @param level map data type
+ * @param sizex how many tiles to render on the x axis
+ * @param sizey how many tiles to render on the y axis
+ * @param offset coordinate x and y offset
+ */
 void drawMap(map level, int sizex, int sizey, coordinates offset){
     for (int fy = 0; fy < sizey; fy++)
             {
