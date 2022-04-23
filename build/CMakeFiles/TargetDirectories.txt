@@ -1,0 +1,3 @@
+/home/syrup/Desktop/Programming/c/swat/build/CMakeFiles/swat.dir
+/home/syrup/Desktop/Programming/c/swat/build/CMakeFiles/edit_cache.dir
+/home/syrup/Desktop/Programming/c/swat/build/CMakeFiles/rebuild_cache.dir
