@@ -28,9 +28,9 @@ typedef struct coordinates
 typedef struct map
 {
     Texture2D key[16];
-    int floor[32][32];
-    int props[32][32];
-    int collision[32][32];
+    char floor[32][32];
+    char props[32][32];
+    char collision[32][32];
 
     
 }map;
@@ -81,7 +81,6 @@ coordinates getMouseTilePosition(){
     coordinates mouse = {((GetMouseX() + tileSize - tileCenter) * 1.0) / (halfTile), (GetMouseY() * 1.0 - 360) / (halfTile)};
     itc(&mouse.x,&mouse.y);
     coordinates selectedcoord = {roundf(mouse.x / 2) - 1,roundf(mouse.y / 2) - 1};
-    printf("%i %i \n", (int)selectedcoord.x,(int)selectedcoord.y);
     return selectedcoord;
 }
 
@@ -89,7 +88,6 @@ Vector2 getMouseTileScreenPosition(){
     coordinates mouse = {((GetMouseX() + tileSize - tileCenter) * 1.0) / (halfTile), (GetMouseY() * 1.0 - 360) / (halfTile)};
     itc(&mouse.x,&mouse.y);
     coordinates selectedcoord = {roundf(mouse.x / 2) - 1,roundf(mouse.y / 2) - 1};
-    printf("%i %i \n", (int)selectedcoord.x,(int)selectedcoord.y);
     
     cti(&selectedcoord.x,&selectedcoord.y);
     Vector2 selected = {(selectedcoord.x*tileSize -halfTile + tileCenter), selectedcoord.y*tileSize + 344};
@@ -100,7 +98,7 @@ int main(void)
     coordinates mapOffset = {0,0};
 
     InitWindow(screenWidth, screenHeight, "Isometric World");
-
+    
     map test = {{LoadTexture("resources/waterTile.png"),
      LoadTexture("resources/concreteTile.png"),
      LoadTexture("resources/tableTile.png"),
@@ -158,6 +156,7 @@ int main(void)
                           {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                           {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
     }};
+    
     Vector2 selected = getMouseTileScreenPosition();
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
