@@ -4,8 +4,13 @@
 #include "math.h"
 
 #define tileSize 64
+
 #define halfTile tileSize / 2
 #define tileCenter tileSize * 6.015625
+
+const int screenWidth = 1280;
+const int screenHeight = 720;
+
 /**
  * @brief simple coordinate system with two floats
  * 
@@ -70,22 +75,28 @@ void drawMap(map level, int sizex, int sizey, coordinates offset, char layer){
 /**
  * @brief Get the tile number you are hovering over
  * 
- * @return coordinate
+ * @return vector2
  */
-Vector2 getMouseTilePosition(){
+coordinates getMouseTilePosition(){
+    coordinates mouse = {((GetMouseX() + tileSize - tileCenter) * 1.0) / (halfTile), (GetMouseY() * 1.0 - 360) / (halfTile)};
+    itc(&mouse.x,&mouse.y);
+    coordinates selectedcoord = {roundf(mouse.x / 2) - 1,roundf(mouse.y / 2) - 1};
+    printf("%i %i \n", (int)selectedcoord.x,(int)selectedcoord.y);
+    return selectedcoord;
+}
+
+Vector2 getMouseTileScreenPosition(){
     coordinates mouse = {((GetMouseX() + tileSize - tileCenter) * 1.0) / (halfTile), (GetMouseY() * 1.0 - 360) / (halfTile)};
     itc(&mouse.x,&mouse.y);
     coordinates selectedcoord = {roundf(mouse.x / 2) - 1,roundf(mouse.y / 2) - 1};
     printf("%i %i \n", (int)selectedcoord.x,(int)selectedcoord.y);
     
     cti(&selectedcoord.x,&selectedcoord.y);
-    Vector2 selected = {(selectedcoord.x*tileSize -halfTile + tileCenter), selectedcoord.y*tileSize + 360};
+    Vector2 selected = {(selectedcoord.x*tileSize -halfTile + tileCenter), selectedcoord.y*tileSize + 344};
     return selected;
 }
 int main(void)
 {
-    const int screenWidth = 1280;
-    const int screenHeight = 720;
     coordinates mapOffset = {0,0};
 
     InitWindow(screenWidth, screenHeight, "Isometric World");
@@ -129,12 +140,29 @@ int main(void)
                           {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                           {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                           {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+    },
+                         {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
     }};
-    Vector2 selected = getMouseTilePosition();
+    Vector2 selected = getMouseTileScreenPosition();
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
         // printf("%i %i \n", GetMouseX(),GetMouseY());
-        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) selected = getMouseTilePosition();
+        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) selected = getMouseTileScreenPosition();
 
         
         // selected.y -= halfTile;
@@ -154,10 +182,9 @@ int main(void)
         
         //----------------------------------------------------------------------------------
     }
-    
     // De-Initialization
     //--------------------------------------------------------------------------------------
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < sizeof(test.key)/sizeof(test.key[0]); i++)
     {
        UnloadTexture(test.key[i]);
     }
