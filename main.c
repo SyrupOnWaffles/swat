@@ -83,16 +83,6 @@ coordinates getMouseTilePosition(){
     coordinates selectedcoord = {roundf(mouse.x / 2) - 1,roundf(mouse.y / 2) - 1};
     return selectedcoord;
 }
-
-Vector2 getMouseTileScreenPosition(){
-    coordinates mouse = {((GetMouseX() + tileSize - tileCenter) * 1.0) / (halfTile), (GetMouseY() * 1.0 - 360) / (halfTile)};
-    itc(&mouse.x,&mouse.y);
-    coordinates selectedcoord = {roundf(mouse.x / 2) - 1,roundf(mouse.y / 2) - 1};
-    
-    cti(&selectedcoord.x,&selectedcoord.y);
-    Vector2 selected = {(selectedcoord.x*tileSize -halfTile + tileCenter), selectedcoord.y*tileSize + 344};
-    return selected;
-}
 int main(void)
 {
     coordinates mapOffset = {0,0};
@@ -157,11 +147,18 @@ int main(void)
                           {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
     }};
     
-    Vector2 selected = getMouseTileScreenPosition();
+    coordinates selectedcoord = getMouseTilePosition();
+    Vector2 selected;
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
         // printf("%i %i \n", GetMouseX(),GetMouseY());
-        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) selected = getMouseTileScreenPosition();
+        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+                selectedcoord = getMouseTilePosition();
+                cti(&selectedcoord.x,&selectedcoord.y);
+                selected.x = (selectedcoord.x*tileSize -tileSize + tileCenter);
+                selected.y = selectedcoord.y*tileSize + 360;                
+            }
+        
 
         
         // selected.y -= halfTile;
@@ -172,7 +169,7 @@ int main(void)
             
             ClearBackground(RAYWHITE);
             drawMap(test,8,8, mapOffset, 1);
-            DrawTextureEx(test.key[6], selected, 0, 2, WHITE);
+            DrawTextureEx(test.key[1],selected, 0, 2, WHITE);
             drawMap(test,8,8, mapOffset, 2);
 
             
