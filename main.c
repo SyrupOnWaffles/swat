@@ -157,19 +157,14 @@ int main(void)
                 cti(&selectedcoord.x,&selectedcoord.y);
                 selected.x = (selectedcoord.x*tileSize -tileSize + tileCenter);
                 selected.y = selectedcoord.y*tileSize + 360;                
-            }
-        
-
-        
-        // selected.y -= halfTile;
-
-        // Vector2 selected = {selectedcoord.x*tileSize - halfTile,selectedcoord.y*tileSize};
-
+                selectedcoord = getMouseTilePosition();
+            }    
+        printf("%f %f \n",selectedcoord.x,selectedcoord.y);
         BeginDrawing();
             
             ClearBackground(RAYWHITE);
             drawMap(test,8,8, mapOffset, 1);
-            DrawTextureEx(test.key[1],selected, 0, 2, WHITE);
+            DrawTextureEx(test.key[6],selected, 0, 2, WHITE);
             drawMap(test,8,8, mapOffset, 2);
 
             
