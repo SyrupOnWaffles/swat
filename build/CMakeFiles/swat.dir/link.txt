@@ -1,0 +1,1 @@
+/usr/bin/cc CMakeFiles/swat.dir/main.c.o CMakeFiles/swat.dir/conversion.c.o -o swat  /usr/lib/libraylib.so -lm -L/usr/lib -lraylib 
